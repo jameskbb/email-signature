@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Email signature studio</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="signature.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="page-header">
+    <div><h1>A good sign-off.</h1><p>Make a simple email signature that feels like you.</p></div>
+    <a class="jump-link" href="#preview-heading">Jump to preview</a>
+  </header>
+  <noscript><p class="noscript-message">Enable JavaScript to edit, preview, copy, and download your signature.</p></noscript>
+  <main class="workspace">
+    <form id="editor" novalidate>
+      <div class="editor-intro"><h2>Your details</h2><p id="sample-note">Sample details to get you started. Replace them with your own.</p></div>
+      <fieldset><legend>Identity</legend>
+        <label for="name">Name</label><input id="name" name="name" autocomplete="name" maxlength="160">
+        <div class="field-pair"><div><label for="position">Position <span>(optional)</span></label><input id="position" name="position" autocomplete="organization-title" maxlength="160"></div><div><label for="company">Company <span>(optional)</span></label><input id="company" name="company" autocomplete="organization" maxlength="160"></div></div>
+      </fieldset>
+      <fieldset><legend>Contact <span>optional</span></legend>
+        <div class="field-pair"><div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="80"></div><div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" aria-describedby="email-error"><p class="field-error" id="email-error" hidden></p></div></div>
+      </fieldset>
+      <fieldset><legend>Image <span>optional</span></legend>
+        <label for="imageUrl">Image URL</label><input id="imageUrl" name="imageUrl" type="text" inputmode="url" placeholder="https://example.com/photo.jpg" aria-describedby="image-help image-error">
+        <p class="field-help" id="image-help">Use a public, direct link to your photo or logo. Loading it contacts the image host. Some email clients block remote images.</p><p class="field-error" id="image-error" hidden></p>
+        <div class="field-pair"><div><label for="imageAlt">Image description</label><input id="imageAlt" name="imageAlt" placeholder="Portrait of Alex Morgan" maxlength="200"></div><div><label for="imageSize">Image size <output id="size-value" for="imageSize">88 px</output></label><input id="imageSize" name="imageSize" type="range" min="48" max="160" step="1" value="88"></div></div>
+      </fieldset>
+      <fieldset><legend>Links <span>optional</span></legend><p class="field-help links-help">Add your website or social profiles. Empty links stay out of your signature.</p><div id="links"></div><button id="add-link" type="button" class="text-button">+ Add a link</button></fieldset>
+      <fieldset class="appearance"><legend>Finishing touch</legend><label for="accent">Divider and link color</label><div class="color-control"><input type="color" id="accent" name="accent" value="#315c49"><span id="color-value">#315c49</span></div></fieldset>
+      <div class="draft-actions"><button type="button" id="clear" class="text-button">Clear details</button><button type="button" id="restore" class="text-button" hidden>Undo clear</button><p id="storage-status" role="status">Your draft stays in this browser.</p></div>
+    </form>
+    <aside class="preview-panel" aria-labelledby="preview-heading">
+      <div class="preview-title"><h2 id="preview-heading" tabindex="-1">Your signature</h2><span>Live preview</span></div>
+      <div class="email-paper"><p class="email-context">Best regards,</p><div id="preview" tabindex="0" aria-label="Signature preview"></div><p id="empty-note" class="empty-note" hidden>Add your name or contact details to begin.</p></div>
+      <p class="preview-note" id="image-status" role="status"></p>
+      <p id="export-error" class="field-error" hidden>Fix the highlighted fields before copying or downloading.</p>
+      <div class="export-actions"><button type="button" id="copy" class="primary-button">Copy signature</button><button type="button" id="download" class="secondary-button">Download HTML</button></div>
+      <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+      <div id="manual-copy" class="manual-copy" hidden><p>Automatic copying is unavailable. Select the signature below, then press Ctrl+C (Windows) or Command+C (Mac).</p><button type="button" id="select-signature" class="secondary-button">Select signature</button></div>
+      <details class="paste-help"><summary>How to use your signature</summary><ol><li>Copy your signature.</li><li>Open your email app's settings and find its signature editor.</li><li>Paste, save, and send yourself a test email.</li></ol><p>Email apps may adjust spacing, fonts, or images. The HTML download is useful for apps that accept an HTML file.</p></details>
+      <p class="privacy-note">No account. No uploads. Your details are saved only in this browser.</p>
+    </aside>
+  </main>
+  <footer class="attribution"><span>Made with <span role="img" aria-label="love">❤️</span></span><a href="https://github.com/jameskbb">by jameskbb</a></footer>
+</body>
+</html>

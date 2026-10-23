@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Email Signature README title card</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; width: 1200px; height: 440px; background: #f5f4ef; color: #242c27; font-family: Arial, Helvetica, sans-serif; }
+    main { height: 100%; padding: 52px 60px 32px; display: grid; grid-template-columns: 1fr 500px; column-gap: 50px; align-items: center; }
+    h1 { margin: 0 0 22px; font: 400 76px/0.98 Georgia, 'Times New Roman', serif; letter-spacing: -0.035em; }
+    .intro p { margin: 0; max-width: 400px; color: #61685f; font-size: 19px; line-height: 1.5; }
+    .paper { padding: 36px; background: #fff; border-radius: 4px; box-shadow: 0 8px 28px #273b2910; }
+    .sign-off { margin: 0 0 26px; font-size: 13px; color: #61685f; }
+    footer { grid-column: 1 / -1; align-self: end; display: flex; justify-content: space-between; border-top: 1px solid #d5d8ce; padding-top: 20px; font-size: 14px; color: #61685f; }
+  </style>
+  <script src="../../signature.js" defer></script>
+  <script defer>
+    window.addEventListener('DOMContentLoaded', () => {
+      // Use the real exporter so the title card reflects the product's layout.
+      document.getElementById('signature').innerHTML = Signature.render({
+        name: 'Alex Morgan', position: 'Product Designer', company: 'North & Co.',
+        email: 'alex@example.com', imageUrl: 'https://example.com/logo.svg',
+        imageAlt: 'Example company monogram', imageSize: 88, accent: '#315c49',
+        links: [{ label: 'Website', url: 'https://example.com' }, { label: 'GitHub', url: 'https://github.com/example' }]
+      });
+      document.querySelector('#signature img').src = '../images/example-logo.svg';
+    });
+  </script>
+</head>
+<body>
+  <main>
+    <div class="intro">
+      <h1>Email<br>Signature</h1>
+      <p>Your image, your details.<br>A clean sign-off, ready to copy.</p>
+    </div>
+    <div class="paper">
+      <p class="sign-off">Best regards,</p>
+      <div id="signature"></div>
+    </div>
+    <footer><span>Image URLs · Contact details · Custom links</span><span>No account. No build step.</span></footer>
+  </main>
+</body>
+</html>

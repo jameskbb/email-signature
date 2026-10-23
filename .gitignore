@@ -1,0 +1,15 @@
+.env*
+.claude/settings.local.json
+.planning/
+node_modules/
+test-results/
+.impeccable/review/
+.DS_Store
+
+# Local credentials and infrastructure state
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+*.tfstate*
+*.tfvars

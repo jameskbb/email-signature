@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-23T22:57:21.656783+00:00",
+  "title": "Design System: Email signature studio",
+  "extensions": {
+    "shadows": [
+      {
+        "name": "email-paper",
+        "value": "0 8px 28px #273b2910",
+        "purpose": "Lift the email preview from the writing surface."
+      }
+    ],
+    "motion": [
+      {
+        "name": "paper-settle",
+        "value": "0.5s cubic-bezier(.16,1,.3,1)",
+        "purpose": "Single entrance with shadow and translateY; disabled for reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1000px"
+      },
+      {
+        "name": "single-column",
+        "value": "720px"
+      },
+      {
+        "name": "narrow-mobile",
+        "value": "390px"
+      }
+    ],
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Primary",
+        "tonalRamp": [
+          "oklch(15% 0.0580 163.7)",
+          "oklch(26% 0.0580 163.7)",
+          "oklch(38% 0.0580 163.7)",
+          "oklch(49% 0.0580 163.7)",
+          "oklch(61% 0.0580 163.7)",
+          "oklch(72% 0.0580 163.7)",
+          "oklch(84% 0.0580 163.7)",
+          "oklch(95% 0.0580 163.7)"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Primary Hover",
+        "tonalRamp": [
+          "oklch(15% 0.0518 159.9)",
+          "oklch(26% 0.0518 159.9)",
+          "oklch(38% 0.0518 159.9)",
+          "oklch(49% 0.0518 159.9)",
+          "oklch(61% 0.0518 159.9)",
+          "oklch(72% 0.0518 159.9)",
+          "oklch(84% 0.0518 159.9)",
+          "oklch(95% 0.0518 159.9)"
+        ]
+      },
+      "page": {
+        "role": "neutral",
+        "displayName": "Page",
+        "tonalRamp": [
+          "oklch(15% 0.0067 97.4)",
+          "oklch(26% 0.0067 97.4)",
+          "oklch(38% 0.0067 97.4)",
+          "oklch(49% 0.0067 97.4)",
+          "oklch(61% 0.0067 97.4)",
+          "oklch(72% 0.0067 97.4)",
+          "oklch(84% 0.0067 97.4)",
+          "oklch(95% 0.0067 97.4)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.9)",
+          "oklch(26% 0.0000 89.9)",
+          "oklch(38% 0.0000 89.9)",
+          "oklch(49% 0.0000 89.9)",
+          "oklch(61% 0.0000 89.9)",
+          "oklch(72% 0.0000 89.9)",
+          "oklch(84% 0.0000 89.9)",
+          "oklch(95% 0.0000 89.9)"
+        ]
+      },
+      "field": {
+        "role": "neutral",
+        "displayName": "Field",
+        "tonalRamp": [
+          "oklch(15% 0.0041 91.4)",
+          "oklch(26% 0.0041 91.4)",
+          "oklch(38% 0.0041 91.4)",
+          "oklch(49% 0.0041 91.4)",
+          "oklch(61% 0.0041 91.4)",
+          "oklch(72% 0.0041 91.4)",
+          "oklch(84% 0.0041 91.4)",
+          "oklch(95% 0.0041 91.4)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0144 157.9)",
+          "oklch(26% 0.0144 157.9)",
+          "oklch(38% 0.0144 157.9)",
+          "oklch(49% 0.0144 157.9)",
+          "oklch(61% 0.0144 157.9)",
+          "oklch(72% 0.0144 157.9)",
+          "oklch(84% 0.0144 157.9)",
+          "oklch(95% 0.0144 157.9)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15% 0.0164 138.7)",
+          "oklch(26% 0.0164 138.7)",
+          "oklch(38% 0.0164 138.7)",
+          "oklch(49% 0.0164 138.7)",
+          "oklch(61% 0.0164 138.7)",
+          "oklch(72% 0.0164 138.7)",
+          "oklch(84% 0.0164 138.7)",
+          "oklch(95% 0.0164 138.7)"
+        ]
+      },
+      "divider": {
+        "role": "neutral",
+        "displayName": "Divider",
+        "tonalRamp": [
+          "oklch(15% 0.0139 120.3)",
+          "oklch(26% 0.0139 120.3)",
+          "oklch(38% 0.0139 120.3)",
+          "oklch(49% 0.0139 120.3)",
+          "oklch(61% 0.0139 120.3)",
+          "oklch(72% 0.0139 120.3)",
+          "oklch(84% 0.0139 120.3)",
+          "oklch(95% 0.0139 120.3)"
+        ]
+      },
+      "field-border": {
+        "role": "neutral",
+        "displayName": "Field Border",
+        "tonalRamp": [
+          "oklch(15% 0.0171 133.8)",
+          "oklch(26% 0.0171 133.8)",
+          "oklch(38% 0.0171 133.8)",
+          "oklch(49% 0.0171 133.8)",
+          "oklch(61% 0.0171 133.8)",
+          "oklch(72% 0.0171 133.8)",
+          "oklch(84% 0.0171 133.8)",
+          "oklch(95% 0.0171 133.8)"
+        ]
+      },
+      "focus": {
+        "role": "neutral",
+        "displayName": "Focus",
+        "tonalRamp": [
+          "oklch(15% 0.0655 155.7)",
+          "oklch(26% 0.0655 155.7)",
+          "oklch(38% 0.0655 155.7)",
+          "oklch(49% 0.0655 155.7)",
+          "oklch(61% 0.0655 155.7)",
+          "oklch(72% 0.0655 155.7)",
+          "oklch(84% 0.0655 155.7)",
+          "oklch(95% 0.0655 155.7)"
+        ]
+      },
+      "error": {
+        "role": "neutral",
+        "displayName": "Error",
+        "tonalRamp": [
+          "oklch(15% 0.1458 30.8)",
+          "oklch(26% 0.1458 30.8)",
+          "oklch(38% 0.1458 30.8)",
+          "oklch(49% 0.1458 30.8)",
+          "oklch(61% 0.1458 30.8)",
+          "oklch(72% 0.1458 30.8)",
+          "oklch(84% 0.1458 30.8)",
+          "oklch(95% 0.1458 30.8)"
+        ]
+      },
+      "selection": {
+        "role": "neutral",
+        "displayName": "Selection",
+        "tonalRamp": [
+          "oklch(15% 0.0277 153.8)",
+          "oklch(26% 0.0277 153.8)",
+          "oklch(38% 0.0277 153.8)",
+          "oklch(49% 0.0277 153.8)",
+          "oklch(61% 0.0277 153.8)",
+          "oklch(72% 0.0277 153.8)",
+          "oklch(84% 0.0277 153.8)",
+          "oklch(95% 0.0277 153.8)"
+        ]
+      },
+      "selection-ink": {
+        "role": "neutral",
+        "displayName": "Selection Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0499 159.2)",
+          "oklch(26% 0.0499 159.2)",
+          "oklch(38% 0.0499 159.2)",
+          "oklch(49% 0.0499 159.2)",
+          "oklch(61% 0.0499 159.2)",
+          "oklch(72% 0.0499 159.2)",
+          "oklch(84% 0.0499 159.2)",
+          "oklch(95% 0.0499 159.2)"
+        ]
+      }
+    }
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Copy the signature.",
+      "html": "<button class=\"ds-primary\">Copy signature</button>",
+      "css": ".ds-primary{font:600 13px Arial,sans-serif;background:var(--green,#315c49);color:white;border:1px solid var(--green,#315c49);border-radius:5px;padding:12px 19px;min-height:44px;cursor:pointer}.ds-primary:hover{background:#244735}.ds-primary:focus-visible{outline:3px solid #527e62;outline-offset:4px}"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "description": "Download or manually select.",
+      "html": "<button class=\"ds-secondary\">Download HTML</button>",
+      "css": ".ds-secondary{font:600 13px Arial,sans-serif;background:transparent;color:#31513d;border:1px solid #abb6a9;border-radius:5px;padding:12px 19px;min-height:44px;cursor:pointer}.ds-secondary:hover{background:#e8ece3}.ds-secondary:focus-visible{outline:3px solid #527e62;outline-offset:4px}"
+    },
+    {
+      "name": "Text action",
+      "kind": "button",
+      "description": "Low emphasis form actions.",
+      "html": "<button class=\"ds-text\">+ Add a link</button>",
+      "css": ".ds-text{font:600 13px Arial,sans-serif;border:0;background:transparent;color:var(--green,#315c49);padding:8px 0;min-height:36px;cursor:pointer}.ds-text:hover{text-decoration:underline;text-underline-offset:4px}.ds-text:focus-visible{outline:3px solid #527e62;outline-offset:4px}"
+    },
+    {
+      "name": "Labeled input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Persistent labels and visible focus.",
+      "html": "<label class=\"ds-label\" for=\"ds-name\">Name</label><input class=\"ds-input\" id=\"ds-name\" value=\"Alex Morgan\">",
+      "css": ".ds-label{display:block;font:600 13px Arial,sans-serif;margin-bottom:8px}.ds-input{font:16px Arial,sans-serif;background:#fffefb;color:#242c27;border:1px solid #b9c0b5;border-radius:5px;padding:11px 12px;caret-color:var(--green,#315c49)}.ds-input:hover{border-color:#7c8b7d}.ds-input:focus-visible{outline:3px solid #527e62;outline-offset:4px}"
+    },
+    {
+      "name": "Jump navigation",
+      "kind": "nav",
+      "description": "Direct access to the preview.",
+      "html": "<a class=\"ds-jump\" href=\"#preview\">Jump to preview</a>",
+      "css": ".ds-jump{font:14px Arial,sans-serif;color:var(--green,#315c49);text-underline-offset:4px}.ds-jump:hover{text-decoration-thickness:2px}.ds-jump:focus-visible{outline:3px solid #527e62;outline-offset:4px}"
+    },
+    {
+      "name": "Email paper",
+      "kind": "custom",
+      "refersTo": "email-paper",
+      "description": "The signature canvas.",
+      "html": "<div class=\"ds-paper\"><p>Best regards,</p><div class=\"ds-signature\"><strong>Alex Morgan</strong><br>Product Designer<br>North &amp; Co.</div></div>",
+      "css": ".ds-paper{background:white;border-radius:4px;padding:32px 28px;box-shadow:0 8px 28px #273b2910;font:13px Arial,sans-serif;color:#69716a}.ds-paper p{margin:0 0 26px}.ds-signature{border-left:2px solid #315c49;padding-left:18px;color:#46534d;line-height:20px}.ds-signature strong{font-size:18px;color:#202a26}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Quiet stationery",
+    "overview": "A warm writing surface and a clean white email preview keep attention on the signature. The serif heading adds a personal note while familiar sans-serif controls make editing straightforward. This language follows the committed editor brief.",
+    "keyCharacteristics": [
+      "Warm page, white paper, dark ink.",
+      "Restrained green actions and clear native controls.",
+      "Generous space between groups with compact related fields."
+    ],
+    "rules": [],
+    "dos": [
+      "Do preserve visible focus and native keyboard behavior.",
+      "Do keep the email preview white and its typography portable.",
+      "Do use examples that are explicitly identified as examples."
+    ],
+    "donts": [
+      "Don't add external font requests or decorative illustration.",
+      "Don't wrap each field group in a card.",
+      "Don't hide field labels inside placeholders."
+    ]
+  }
+}
