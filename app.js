@@ -100,7 +100,7 @@
 
   function validate() {
     valid = true;
-    var email = state.email.trim();
+    var email = Signature.unformat(state.email).trim();
     setError($('email'), $('email-error'), email && !Signature.validEmail(email) ? 'Enter an email address such as alex@example.com, or leave this blank.' : '');
     setError($('imageUrl'), $('image-error'), state.imageUrl.trim() && !Signature.normalizeUrl(state.imageUrl) ? 'Enter a public http:// or https:// image URL, or leave this blank.' : '');
     Array.prototype.forEach.call($('links').children, function (row, index) {
@@ -160,6 +160,57 @@
     save();
   }
 
+  function addBoldControl(input, fieldName) {
+    var label = document.querySelector('label[for="' + input.id + '"]');
+    var heading = document.createElement('div');
+    heading.className = 'format-label';
+    label.before(heading);
+    heading.appendChild(label);
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'bold-button';
+    button.textContent = 'Bold';
+    button.setAttribute('aria-label', 'Toggle bold for ' + fieldName);
+    button.setAttribute('aria-controls', input.id);
+    button.title = 'Bold selected text or the whole field (Ctrl+B or Command+B)';
+    heading.appendChild(button);
+    input.setAttribute('aria-describedby', ((input.getAttribute('aria-describedby') || '') + ' formatting-help').trim());
+    function toggleBold() {
+      var value = input.value;
+      var start = input.selectionStart;
+      var end = input.selectionEnd;
+      if (start === end) { start = 0; end = value.length; }
+      if (!value) {
+        $('formatting-status').textContent = 'Enter text in ' + fieldName + ' before making it bold.';
+        input.focus();
+        return;
+      }
+      var selection = value.slice(start, end);
+      var replacement;
+      if (start >= 2 && value.slice(start - 2, start) === '**' && value.slice(end, end + 2) === '**') {
+        start -= 2; end += 2;
+        replacement = selection;
+      } else if (selection.startsWith('**') && selection.endsWith('**') && selection.length > 4) {
+        replacement = selection.slice(2, -2);
+      } else {
+        replacement = '**' + selection + '**';
+      }
+      input.value = value.slice(0, start) + replacement + value.slice(end);
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      render();
+      input.focus();
+      input.setSelectionRange(start, start + replacement.length);
+      $('formatting-status').textContent = 'Formatting updated for ' + fieldName + '.';
+    }
+    button.addEventListener('mousedown', function (event) { event.preventDefault(); });
+    button.addEventListener('click', toggleBold);
+    input.addEventListener('keydown', function (event) {
+      if ((event.ctrlKey || event.metaKey) && !event.altKey && event.key.toLowerCase() === 'b') {
+        event.preventDefault(); toggleBold();
+      }
+    });
+  }
+
   function createLinkRow(link) {
     var id = ++linkCounter;
     var row = document.createElement('div');
@@ -183,6 +234,7 @@
       changed(); render();
     });
     $('links').appendChild(row);
+    addBoldControl(label, 'link label');
     return row;
   }
 
@@ -192,6 +244,8 @@
     state.links.forEach(createLinkRow);
     render();
   }
+
+  ['name', 'position', 'company', 'phone', 'email'].forEach(function (key) { addBoldControl($(key), key); });
 
   fields.forEach(function (key) {
     $(key).addEventListener('input', function () {

@@ -40,11 +40,16 @@
   }
   function filename(signature) {
     var email = signature && typeof signature.email === 'string' ? signature.email : '';
-    var handle = email.trim().split('@')[0].toLowerCase().normalize('NFKD')
+    var company = signature && typeof signature.company === 'string' ? signature.company : '';
+    var handle = email.replace(/\*\*([\s\S]+?)\*\*/g, '$1').trim().split('@')[0].toLowerCase().normalize('NFKD')
       .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9._+-]/g, '-')
       .replace(/-+/g, '-').replace(/^[._+-]+|[._+-]+$/g, '').slice(0, 100)
       .replace(/[._+-]+$/g, '');
     if (!handle) handle = 'email-signature-template';
+    var companySlug = company.replace(/\*\*([\s\S]+?)\*\*/g, '$1').toLowerCase().normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '').slice(0, 80).replace(/-+$/g, '');
+    if (companySlug) handle += '-' + companySlug;
     // Windows reserves these names even when a file extension is present.
     if (/^(con|prn|aux|nul|com[0-9]|lpt[0-9])(?:\.|$)/i.test(handle)) handle = 'template-' + handle;
     return handle + '.json';

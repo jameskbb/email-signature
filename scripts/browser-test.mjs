@@ -59,7 +59,7 @@ try {
   check(await page.locator('#copy').isDisabled(), 'Unsafe link blocks export');
   await row.locator('input').nth(1).fill('portfolio.example.com');
   await preview.locator('a[href="https://portfolio.example.com/"]').waitFor();
-  await row.locator('button').click();
+  await row.locator('.remove-link').click();
   check(await page.locator('.link-row').count() === initialLinks, 'Remove link works');
   await page.reload();
   check(await page.locator('#name').inputValue() === 'Jamie Example', 'Draft survives reload');
@@ -86,12 +86,36 @@ try {
   check(await page.locator('#empty-note').isVisible(), 'Clear exposes empty state');
   await page.locator('#restore').click();
   check(await page.locator('#name').inputValue() === 'Jamie Example', 'Undo restores cleared draft');
+  await page.locator('#company').fill('North | Digital Solutions');
+  await page.locator('#company').evaluate(input => { input.focus(); input.setSelectionRange(0, 5); });
+  await page.getByRole('button', { name: 'Toggle bold for company', exact: true }).click();
+  assert.equal(await page.locator('#company').inputValue(), '**North** | Digital Solutions');
+  assert.equal(await preview.locator('strong').filter({ hasText: /^North$/ }).count(), 1, 'Only selected company text is bold');
+  assert.equal(await page.evaluate(() => document.activeElement.id), 'company', 'Bold returns focus to field');
+  await page.locator('#company').press('Control+b');
+  assert.equal(await page.locator('#company').inputValue(), 'North | Digital Solutions', 'Keyboard toggles bold off');
+  await page.locator('#company').press('Meta+b');
+  assert.equal(await page.locator('#company').inputValue(), '**North** | Digital Solutions', 'Command+B toggles bold on');
+  await page.locator('#email').fill('jamie@example.com');
+  await page.locator('#email').evaluate(input => { input.focus(); input.setSelectionRange(0, 0); });
+  await page.getByRole('button', { name: 'Toggle bold for email', exact: true }).click();
+  assert.equal(await page.locator('#email').inputValue(), '**jamie@example.com**', 'No selection bolds whole email');
+  assert.equal(await preview.locator('a[href="mailto:jamie@example.com"] strong').innerText(), 'jamie@example.com');
+  check(!await page.locator('#download').isDisabled(), 'Formatted email validates using raw address');
+  await page.locator('#position').fill('');
+  await page.getByRole('button', { name: 'Toggle bold for position', exact: true }).click();
+  assert.equal(await page.locator('#position').inputValue(), '', 'Empty bold leaves field empty');
+  check((await page.locator('#formatting-status').innerText()).includes('Enter text'), 'Empty bold provides accessible feedback');
+  await page.locator('.link-row').first().locator('.link-label').fill('Portfolio');
+  await page.locator('.link-row').first().locator('.link-url').fill('https://example.com/');
+  await page.locator('.link-row').first().locator('.bold-button').click();
+  assert.equal(await preview.locator('a[href="https://example.com/"] strong').innerText(), 'Portfolio', 'Link label supports bold');
   // Templates retain work in progress exactly, including whitespace and blank rows.
   const templateDraft = {
-    name: '  Jamie <b>Example</b>  ', position: ' Designer ', company: '', phone: ' +1 555 0100 ',
-    email: ' unfinished@ ', imageUrl: 'javascript:alert(1)', imageAlt: ' Portrait & logo ',
+    name: '  Jamie <b>Example</b>  ', position: ' **Designer** ', company: '**North** | Digital Solutions', phone: ' **+1 555 0100** ',
+    email: ' **unfinished@** ', imageUrl: 'javascript:alert(1)', imageAlt: ' Portrait & logo ',
     imageSize: 137, accent: '#a1b2c3',
-    links: [{ label: ' Second ', url: 'bad url' }, { label: '', url: '' }, { label: 'First', url: 'https://example.com/' }]
+    links: [{ label: ' **Second** ', url: 'bad url' }, { label: '', url: '' }, { label: 'First', url: 'https://example.com/' }]
   };
   const loadTemplate = async value => {
     await page.locator('#template-file').setInputFiles({ name: 'template.json', mimeType: 'application/json', buffer: Buffer.from(typeof value === 'string' ? value : JSON.stringify(value)) });
@@ -109,7 +133,7 @@ try {
   const templateDownloadPromise = page.waitForEvent('download');
   await page.locator('#save-template').click();
   const templateDownload = await templateDownloadPromise;
-  assert.equal(templateDownload.suggestedFilename(), 'unfinished.json');
+  assert.equal(templateDownload.suggestedFilename(), 'unfinished-north-digital-solutions.json');
   const templateFile = await readFile(await templateDownload.path(), 'utf8');
   assert.deepEqual(JSON.parse(templateFile), envelope(templateDraft), 'Downloaded template retains every value');
   check(templateFile.endsWith('\n'), 'Template JSON ends with newline');

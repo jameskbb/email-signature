@@ -24,7 +24,7 @@ Run locally or on GitHub Pages. Copy the rendered signature into an email client
 
 ## Capabilities and Constraints
 
-Live preview, optional contact fields and arbitrary labeled links, hosted image URL, local draft persistence, lossless JSON template save/load with undo, and email-compatible table markup with inline styles. No account, backend, telemetry, or build toolchain. Email clients may modify pasted formatting or block remote images.
+Live preview, whole-field and partial-text bold formatting, optional contact fields and arbitrary labeled links, hosted image URL, local draft persistence, lossless JSON template save/load with undo, and email-compatible table markup with inline styles. No account, backend, telemetry, or build toolchain. Email clients may modify pasted formatting or block remote images.
 
 ## Product Principles
 

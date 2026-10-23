@@ -113,11 +113,11 @@ Controls have gently rounded corners. The email canvas uses a slightly tighter r
 
 ### Buttons
 
-The primary filled green action copies the signature. Download is a quiet bordered secondary action. Save template and Load template use the same secondary style above the form, with local file status directly underneath. Text actions add links, clear details, and undo a clear or template load. Primary and secondary actions are at least 44px tall. Focus is a three-pixel green outline with four-pixel offset. Disabled actions have reduced opacity and a not-allowed cursor.
+The primary filled green action copies the signature. Download is a quiet bordered secondary action. Save template and Load template use the same secondary style below the preview export actions, separated by a quiet rule, with local file status directly underneath. This keeps reusable draft files near the finished signature outputs while preserving Copy signature as the primary action. Text actions add links, clear details, and undo a clear or template load. Primary and secondary actions are at least 44px tall. Focus is a three-pixel green outline with four-pixel offset. Disabled actions have reduced opacity and a not-allowed cursor.
 
 ### Inputs / Fields
 
-Every input has a persistent visible label. Related fields share a row when space allows. Invalid inputs use an error border and adjacent recovery text. Native range and color inputs retain familiar browser behavior with the green accent.
+Every input has a persistent visible label. A compact Bold button beside each displayed-text label formats selected text or the whole field. Ctrl+B and Command+B provide the same toggle. Paired ** markers remain visible in the field and render as bold in the preview. Related fields share a row when space allows. Invalid inputs use an error border and adjacent recovery text. Native range and color inputs retain familiar browser behavior with the green accent.
 
 ### Email paper
 

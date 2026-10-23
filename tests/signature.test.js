@@ -75,3 +75,21 @@ test('encodes valid mailbox punctuation so it cannot become mailto parameters', 
   assert.ok(html.includes('href="mailto:ada%3Fsubject%3Dhello@example.com"'));
   assert.ok(!html.includes('href="mailto:ada?'));
 });
+
+test('renders selected bold text safely and keeps markup out of link destinations and plain text', () => {
+  const data = {
+    name: '**Alex** Morgan', position: 'Lead **Designer**', company: '**EXAMPLE** | Digital Solutions',
+    phone: '**+1** 555-0100', email: '**alex**@example.com',
+    links: [{ label: 'My **Website**', url: 'https://example.com/**literal**' }]
+  };
+  const html = render(data);
+  assert.match(html, /<strong style="font-weight:700;">EXAMPLE<\/strong> \| Digital Solutions/);
+  assert.match(html, /href="mailto:alex@example.com"/);
+  assert.match(html, /href="tel:\+15550100"/);
+  assert.match(html, /href="https:\/\/example.com\/\*\*literal\*\*"/);
+  assert.match(html, /My <strong style="font-weight:700;">Website<\/strong>/);
+  assert.equal(plainText(data), 'Alex Morgan\nLead Designer\nEXAMPLE | Digital Solutions\n+1 555-0100\nalex@example.com\nMy Website: https://example.com/**literal**');
+  assert.equal(globalThis.Signature.format('**<img src=x onerror=alert(1)>**'), '<strong style="font-weight:700;">&lt;img src=x onerror=alert(1)&gt;</strong>');
+  assert.equal(globalThis.Signature.format('unmatched **text'), 'unmatched **text');
+  assert.equal(globalThis.Signature.unformat('A **bold** B **also**'), 'A bold B also');
+});

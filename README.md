@@ -24,9 +24,15 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 Open http://localhost:8000. Replace the example details, paste a public direct image URL, and add any links you want. Blank optional fields disappear. Use **Copy signature**, then paste into your email client's signature editor. You can also download the HTML.
 
+## Bold text
+
+Select any part of your name, position, company, phone, email, or link label, then choose its **Bold** button or press **Ctrl+B** (Windows) or **Command+B** (Mac). With no selection, the whole field is bolded. Repeat to remove bold. For example, `**North** | Digital Solutions` makes only North bold. Your name already appears bold by default.
+
+You can also type paired `**` markers directly. The preview and HTML render the bold text; email and phone link destinations and plain-text clipboard content omit the markers. URLs and image descriptions remain literal. Templates retain the markers exactly so formatting survives saving and loading.
+
 ## Save and load templates
 
-Use **Save template** to download a JSON file named after your email handle: `alex@example.com` saves as `alex.json`. Filenames are lowercase and cleaned for filesystem compatibility; a blank email uses `email-signature-template.json`. Use **Load template** to restore a file in this editor on any device. The template retains every editable value exactly: identity, contact details, image URL and description, image size, color, and all links in their original order, including blank rows and whitespace. Unfinished or invalid email addresses and URLs can be saved too; fix highlighted fields before copying or downloading HTML.
+Use **Save template** to download a JSON file named after your email handle and company: `alex@example.com` at `North & Co.` saves as `alex-north-co.json`. Filenames are lowercase and cleaned for filesystem compatibility; a blank company keeps just the email handle, and a blank email uses `email-signature-template` as the base name. Bold formatting is left out of filenames. Use **Load template** to restore a file in this editor on any device. The template retains every editable value exactly: identity, contact details, image URL and description, image size, color, and all links in their original order, including blank rows and whitespace. Unfinished or invalid email addresses and URLs can be saved too; fix highlighted fields before copying or downloading HTML.
 
 Loading replaces your draft and updates the preview and browser storage immediately. **Undo load** restores the previous draft. Invalid, unsupported, or oversized files leave the draft unchanged. Files are read locally, with a 100 KiB limit. Templates contain your entered details in plain text, so keep them wherever you normally store personal files. HTML downloads are rendered signatures, not editable templates.
 

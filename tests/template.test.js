@@ -17,7 +17,7 @@ test('template filenames use a safe email handle without changing saved values',
     ['CON@example.com', 'template-con.json']
   ];
   for (const [email, expected] of examples) {
-    const data = { ...signature, email };
+    const data = { ...signature, email, company: '' };
     assert.equal(Template.filename(data), expected);
     assert.equal(Template.parse(Template.serialize(data)).email, email);
   }
@@ -45,4 +45,11 @@ test('omits view-only state and returns independent editable values', () => {
   assert.deepEqual(parsed, signature);
   parsed.links[0].label = 'changed';
   assert.equal(signature.links[0].label, ' Second ');
+});
+
+test('template filenames include the company without bold markers or unsafe separators', () => {
+  const data = { ...signature, email: '**alex**@example.com', company: '**EXAMPLE** | Digital Solutions' };
+  assert.equal(Template.filename(data), 'alex-example-digital-solutions.json');
+  assert.deepEqual(Template.parse(Template.serialize(data)), data);
+  assert.equal(Template.filename({ email: 'alex@example.com', company: ' /:*? ' }), 'alex.json');
 });
