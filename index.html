@@ -7,6 +7,7 @@
   <title>Email signature studio</title>
   <link rel="stylesheet" href="styles.css">
   <script src="signature.js" defer></script>
+  <script src="template.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -18,12 +19,13 @@
   <main class="workspace">
     <form id="editor" novalidate>
       <div class="editor-intro"><h2>Your details</h2><p id="sample-note">Sample details to get you started. Replace them with your own.</p></div>
+      <div class="template-actions"><button type="button" id="save-template" class="secondary-button">Save template</button><button type="button" id="load-template" class="secondary-button">Load template</button><input type="file" id="template-file" accept=".json,application/json" hidden><p class="field-help">Keep every field in a file, then load it here to edit again.</p><p id="template-status" role="status" aria-live="polite" hidden></p></div>
       <fieldset><legend>Identity</legend>
         <label for="name">Name</label><input id="name" name="name" autocomplete="name" maxlength="160">
         <div class="field-pair"><div><label for="position">Position <span>(optional)</span></label><input id="position" name="position" autocomplete="organization-title" maxlength="160"></div><div><label for="company">Company <span>(optional)</span></label><input id="company" name="company" autocomplete="organization" maxlength="160"></div></div>
       </fieldset>
       <fieldset><legend>Contact <span>optional</span></legend>
-        <div class="field-pair"><div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="80"></div><div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" aria-describedby="email-error"><p class="field-error" id="email-error" hidden></p></div></div>
+        <div class="field-pair"><div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="80"></div><div><label for="email">Email</label><input id="email" name="email" type="text" inputmode="email" autocomplete="email" maxlength="254" aria-describedby="email-error"><p class="field-error" id="email-error" hidden></p></div></div>
       </fieldset>
       <fieldset><legend>Image <span>optional</span></legend>
         <label for="imageUrl">Image URL</label><input id="imageUrl" name="imageUrl" type="text" inputmode="url" placeholder="https://example.com/photo.jpg" aria-describedby="image-help image-error">
@@ -38,12 +40,12 @@
       <div class="preview-title"><h2 id="preview-heading" tabindex="-1">Your signature</h2><span>Live preview</span></div>
       <div class="email-paper"><p class="email-context">Best regards,</p><div id="preview" tabindex="0" aria-label="Signature preview"></div><p id="empty-note" class="empty-note" hidden>Add your name or contact details to begin.</p></div>
       <p class="preview-note" id="image-status" role="status"></p>
-      <p id="export-error" class="field-error" hidden>Fix the highlighted fields before copying or downloading.</p>
+      <p id="export-error" class="field-error" hidden>Fix the highlighted fields before copying or downloading HTML. You can still save a template.</p>
       <div class="export-actions"><button type="button" id="copy" class="primary-button">Copy signature</button><button type="button" id="download" class="secondary-button">Download HTML</button></div>
       <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
       <div id="manual-copy" class="manual-copy" hidden><p>Automatic copying is unavailable. Select the signature below, then press Ctrl+C (Windows) or Command+C (Mac).</p><button type="button" id="select-signature" class="secondary-button">Select signature</button></div>
       <details class="paste-help"><summary>How to use your signature</summary><ol><li>Copy your signature.</li><li>Open your email app's settings and find its signature editor.</li><li>Paste, save, and send yourself a test email.</li></ol><p>Email apps may adjust spacing, fonts, or images. The HTML download is useful for apps that accept an HTML file.</p></details>
-      <p class="privacy-note">No account. No uploads. Your details are saved only in this browser.</p>
+      <p class="privacy-note">No account. No uploads. Your draft stays in this browser. Templates are saved to your device.</p>
     </aside>
   </main>
   <footer class="attribution"><span>Made with <span role="img" aria-label="love">❤️</span></span><a href="https://github.com/jameskbb">by jameskbb</a></footer>

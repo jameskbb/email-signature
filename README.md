@@ -10,7 +10,7 @@ Make a clean email signature: image on the left, a solid divider, then your name
 
 [View the mobile editor](docs/images/editor-mobile.png).
 
-Plain HTML, CSS, and JavaScript. No account, application dependencies, or build step. Your draft stays in this browser; the image host receives a request when you preview its image.
+Plain HTML, CSS, and JavaScript. No account, application dependencies, or build step. Your draft stays in this browser, and templates can be saved to your device; the image host receives a request when you preview its image.
 
 ## Run
 
@@ -23,6 +23,14 @@ python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
 Open http://localhost:8000. Replace the example details, paste a public direct image URL, and add any links you want. Blank optional fields disappear. Use **Copy signature**, then paste into your email client's signature editor. You can also download the HTML.
+
+## Save and load templates
+
+Use **Save template** to download `email-signature-template.json`, then **Load template** to restore it in this editor on any device. The template retains every editable value exactly: identity, contact details, image URL and description, image size, color, and all links in their original order, including blank rows and whitespace. Unfinished or invalid email addresses and URLs can be saved too; fix highlighted fields before copying or downloading HTML.
+
+Loading replaces your draft and updates the preview and browser storage immediately. **Undo load** restores the previous draft. Invalid, unsupported, or oversized files leave the draft unchanged. Files are read locally, with a 100 KiB limit. Templates contain your entered details in plain text, so keep them wherever you normally store personal files. HTML downloads are rendered signatures, not editable templates.
+
+Templates use JSON with `format: "email-signature-template"`, `version: 1`, and a `signature` object. That object contains `name`, `position`, `company`, `phone`, `email`, `imageUrl`, `imageAlt`, `imageSize` (an integer from 48 to 160), `accent` (a six-digit hex color), and `links` (an ordered array of `{ "label": "...", "url": "..." }` objects). All fields other than image size and the links array are strings.
 
 ## GitHub Pages
 

@@ -1,6 +1,6 @@
 # Email Signature
 
-A static email signature editor for local use and GitHub Pages. No application dependencies or build step. The browser loads index.html, styles.css, signature.js, and app.js directly.
+A static email signature editor for local use and GitHub Pages. No application dependencies or build step. The browser loads index.html, styles.css, signature.js, template.js, and app.js directly.
 
 ## Run and verify
 

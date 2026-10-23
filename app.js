@@ -35,19 +35,61 @@
   }
   state = state || clone(sample);
 
+  function persist() {
+    clearTimeout(saveTimer);
+    try {
+      localStorage.setItem(draftKey, JSON.stringify(state));
+      storageUnavailable = false;
+      $('storage-status').textContent = 'Draft saved in this browser.';
+    } catch (error) {
+      storageUnavailable = true;
+      $('storage-status').textContent = 'This browser cannot save your draft. Save a template before closing this page.';
+    }
+  }
   function save() {
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(function () {
-      try {
-        localStorage.setItem(draftKey, JSON.stringify(state));
-        storageUnavailable = false;
-        $('storage-status').textContent = 'Draft saved in this browser.';
-      } catch (error) {
-        storageUnavailable = true;
-        $('storage-status').textContent = 'This browser cannot save your draft. Copy or download it before closing this page.';
-      }
-    }, 250);
+    saveTimer = setTimeout(persist, 250);
   }
+
+  function templateStatus(message, error) {
+    $('template-status').hidden = false;
+    $('template-status').textContent = message;
+    $('template-status').classList.toggle('warning', Boolean(error));
+  }
+  function downloadFile(contents, type, filename) {
+    var url = URL.createObjectURL(new Blob([contents], { type: type }));
+    var anchor = document.createElement('a');
+    anchor.href = url; anchor.download = filename;
+    document.body.appendChild(anchor); anchor.click(); anchor.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+  $('save-template').addEventListener('click', function () {
+    try {
+      downloadFile(SignatureTemplate.serialize(state), 'application/json;charset=utf-8', 'email-signature-template.json');
+      templateStatus('Template saved. Load this file to restore every field, including unfinished details.');
+    } catch (error) { templateStatus(error.message, true); }
+  });
+  $('load-template').addEventListener('click', function () { $('template-file').click(); });
+  $('template-file').addEventListener('change', async function () {
+    var file = this.files[0];
+    this.value = '';
+    if (!file) return;
+    try {
+      if (file.size > SignatureTemplate.maxBytes) throw new Error('This template is too large. Choose a file smaller than 100 KiB.');
+      var loaded = SignatureTemplate.parse(await file.text());
+      clearTimeout(saveTimer);
+      clearTimeout(renderTimer);
+      undoState = clone(state);
+      state = loaded;
+      lastImageUrl = ''; imageFailed = false;
+      fillForm(); changed();
+      clearTimeout(renderTimer);
+      persist();
+      $('restore').textContent = 'Undo load';
+      $('restore').hidden = false;
+      templateStatus('Template loaded. Every field is restored. Use Undo load to restore your previous draft.');
+    } catch (error) { templateStatus(error.message + ' Your draft has not changed.', true); }
+  });
 
   function setError(input, output, message) {
     input.setAttribute('aria-invalid', message ? 'true' : 'false');
@@ -170,6 +212,7 @@
     undoState = clone(state);
     state = { name: '', position: '', company: '', phone: '', email: '', imageUrl: '', imageAlt: '', imageSize: 88, accent: '#315c49', links: [] };
     fillForm(); changed();
+    $('restore').textContent = 'Undo clear';
     $('restore').hidden = false;
     $('action-status').textContent = 'Details cleared. Use Undo clear to restore them.';
     $('name').focus();
@@ -178,7 +221,8 @@
     if (!undoState) return;
     state = undoState; undoState = null;
     $('restore').hidden = true;
-    fillForm(); changed();
+    fillForm(); changed(); persist();
+    templateStatus('Your previous draft is restored.');
     $('action-status').textContent = 'Your previous details are restored.';
     $('name').focus();
   });
@@ -219,11 +263,7 @@
     render();
     if (!valid || !$('preview').innerHTML.trim()) return;
     var html = '<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Email signature</title></head><body>\n' + Signature.render(state) + '\n</body></html>\n';
-    var url = URL.createObjectURL(new Blob([html], { type: 'text/html;charset=utf-8' }));
-    var anchor = document.createElement('a');
-    anchor.href = url; anchor.download = 'email-signature.html';
-    document.body.appendChild(anchor); anchor.click(); anchor.remove();
-    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    downloadFile(html, 'text/html;charset=utf-8', 'email-signature.html');
     $('action-status').textContent = 'HTML download started. Open the file to view your signature.';
   });
   window.addEventListener('pagehide', function () {

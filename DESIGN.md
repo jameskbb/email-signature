@@ -113,7 +113,7 @@ Controls have gently rounded corners. The email canvas uses a slightly tighter r
 
 ### Buttons
 
-The primary filled green action copies the signature. Download is a quiet bordered secondary action. Text actions add links, clear details, and undo a clear. Primary and secondary actions are at least 44px tall. Focus is a three-pixel green outline with four-pixel offset. Disabled actions have reduced opacity and a not-allowed cursor.
+The primary filled green action copies the signature. Download is a quiet bordered secondary action. Save template and Load template use the same secondary style above the form, with local file status directly underneath. Text actions add links, clear details, and undo a clear or template load. Primary and secondary actions are at least 44px tall. Focus is a three-pixel green outline with four-pixel offset. Disabled actions have reduced opacity and a not-allowed cursor.
 
 ### Inputs / Fields
 

@@ -86,6 +86,58 @@ try {
   check(await page.locator('#empty-note').isVisible(), 'Clear exposes empty state');
   await page.locator('#restore').click();
   check(await page.locator('#name').inputValue() === 'Jamie Example', 'Undo restores cleared draft');
+  // Templates retain work in progress exactly, including whitespace and blank rows.
+  const templateDraft = {
+    name: '  Jamie <b>Example</b>  ', position: ' Designer ', company: '', phone: ' +1 555 0100 ',
+    email: ' unfinished@ ', imageUrl: 'javascript:alert(1)', imageAlt: ' Portrait & logo ',
+    imageSize: 137, accent: '#a1b2c3',
+    links: [{ label: ' Second ', url: 'bad url' }, { label: '', url: '' }, { label: 'First', url: 'https://example.com/' }]
+  };
+  const loadTemplate = async value => {
+    await page.locator('#template-file').setInputFiles({ name: 'template.json', mimeType: 'application/json', buffer: Buffer.from(typeof value === 'string' ? value : JSON.stringify(value)) });
+  };
+  const envelope = signature => ({ format: 'email-signature-template', version: 1, signature });
+  await loadTemplate(envelope(templateDraft));
+  await page.waitForFunction(() => document.querySelector('#template-status').textContent.startsWith('Template loaded.'));
+  for (const [key, value] of Object.entries(templateDraft)) {
+    if (key !== 'links') assert.equal(await page.locator(`#${key}`).inputValue(), String(value), `${key} loads exactly`);
+  }
+  assert.deepEqual(await page.locator('.link-row').evaluateAll(rows => rows.map(row => ({ label: row.querySelector('.link-label').value, url: row.querySelector('.link-url').value }))), templateDraft.links);
+  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('email-signature-draft-v1'))), templateDraft, 'Load persists immediately');
+  check(await page.locator('#download').isDisabled(), 'Unfinished template blocks signature export');
+  check(await preview.locator('b').count() === 0 && await preview.locator('img').count() === 0, 'Template markup and unsafe URL do not execute');
+  const templateDownloadPromise = page.waitForEvent('download');
+  await page.locator('#save-template').click();
+  const templateDownload = await templateDownloadPromise;
+  assert.equal(templateDownload.suggestedFilename(), 'email-signature-template.json');
+  const templateFile = await readFile(await templateDownload.path(), 'utf8');
+  assert.deepEqual(JSON.parse(templateFile), envelope(templateDraft), 'Downloaded template retains every value');
+  check(templateFile.endsWith('\n'), 'Template JSON ends with newline');
+  for (const invalid of ['{', { ...envelope(templateDraft), version: 2 }, envelope({ ...templateDraft, links: [{}] }), ' '.repeat(102401)]) {
+    await loadTemplate(invalid);
+    await page.waitForFunction(() => document.querySelector('#template-status').classList.contains('warning'));
+    assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('email-signature-draft-v1'))), templateDraft, 'Rejected file preserves draft');
+    assert.equal(await page.locator('#name').inputValue(), templateDraft.name);
+  }
+  await page.locator('#restore').click();
+  assert.equal(await page.locator('#name').inputValue(), 'Jamie Example', 'Undo load restores previous draft');
+  await loadTemplate(templateFile);
+  await page.waitForFunction(() => document.querySelector('#name').value.startsWith('  Jamie'));
+  await page.reload();
+  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('email-signature-draft-v1'))), templateDraft, 'Template survives reload exactly');
+  const reexportPromise = page.waitForEvent('download');
+  await page.locator('#save-template').click();
+  const reexport = await reexportPromise;
+  assert.equal(await readFile(await reexport.path(), 'utf8'), templateFile, 'Download, load and reexport preserve every byte');
+  await page.locator('#clear').click();
+  const emptyDownloadPromise = page.waitForEvent('download');
+  await page.locator('#save-template').click();
+  const emptyDownload = await emptyDownloadPromise;
+  assert.equal(JSON.parse(await readFile(await emptyDownload.path(), 'utf8')).signature.name, '', 'Empty draft can be saved');
+  // Reset browser state for consistent documentation screenshots.
+  await loadTemplate(envelope({ name: 'Alex Morgan', position: 'Product Designer', company: 'North & Co.', phone: '', email: 'alex@example.com', imageUrl: '', imageAlt: '', imageSize: 88, accent: '#315c49', links: [{ label: 'GitHub', url: '' }, { label: 'Website', url: '' }, { label: 'Facebook', url: '' }] }));
+  await page.waitForFunction(() => document.querySelector('#name').value === 'Alex Morgan');
+  await page.reload();
   // Regenerate documentation images with the honest labeled initial example.
   await page.locator('#name').fill('Alex Morgan');
   await page.locator('#position').fill('Product Designer');
@@ -124,7 +176,7 @@ try {
   await page.waitForFunction(() => document.querySelector('#preview table'));
   check(await page.locator('#name').inputValue(), 'Project subpath loads app');
   assert.deepEqual(errors, [], 'No uncaught browser errors');
-  console.log('Browser checks passed: editing, escaping, validation, image stubs, links, persistence, export, clipboard fallback, reset, responsive layout, file loading and subpath hosting.');
+  console.log('Browser checks passed: editing, escaping, validation, image stubs, links, persistence, export, clipboard fallback, reset, exact template round trips, rejected files, undo load, responsive layout, file loading and subpath hosting.');
 } finally {
   await browser.close();
 }
