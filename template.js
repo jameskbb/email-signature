@@ -38,7 +38,18 @@
     checkSize(text);
     return text;
   }
-  var api = { parse: parse, serialize: serialize, maxBytes: MAX_BYTES };
+  function filename(signature) {
+    var email = signature && typeof signature.email === 'string' ? signature.email : '';
+    var handle = email.trim().split('@')[0].toLowerCase().normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9._+-]/g, '-')
+      .replace(/-+/g, '-').replace(/^[._+-]+|[._+-]+$/g, '').slice(0, 100)
+      .replace(/[._+-]+$/g, '');
+    if (!handle) handle = 'email-signature-template';
+    // Windows reserves these names even when a file extension is present.
+    if (/^(con|prn|aux|nul|com[0-9]|lpt[0-9])(?:\.|$)/i.test(handle)) handle = 'template-' + handle;
+    return handle + '.json';
+  }
+  var api = { parse: parse, serialize: serialize, filename: filename, maxBytes: MAX_BYTES };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else window.SignatureTemplate = api;
 })();

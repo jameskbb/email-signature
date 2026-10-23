@@ -109,7 +109,7 @@ try {
   const templateDownloadPromise = page.waitForEvent('download');
   await page.locator('#save-template').click();
   const templateDownload = await templateDownloadPromise;
-  assert.equal(templateDownload.suggestedFilename(), 'email-signature-template.json');
+  assert.equal(templateDownload.suggestedFilename(), 'unfinished.json');
   const templateFile = await readFile(await templateDownload.path(), 'utf8');
   assert.deepEqual(JSON.parse(templateFile), envelope(templateDraft), 'Downloaded template retains every value');
   check(templateFile.endsWith('\n'), 'Template JSON ends with newline');
@@ -133,6 +133,7 @@ try {
   const emptyDownloadPromise = page.waitForEvent('download');
   await page.locator('#save-template').click();
   const emptyDownload = await emptyDownloadPromise;
+  assert.equal(emptyDownload.suggestedFilename(), 'email-signature-template.json');
   assert.equal(JSON.parse(await readFile(await emptyDownload.path(), 'utf8')).signature.name, '', 'Empty draft can be saved');
   // Reset browser state for consistent documentation screenshots.
   await loadTemplate(envelope({ name: 'Alex Morgan', position: 'Product Designer', company: 'North & Co.', phone: '', email: 'alex@example.com', imageUrl: '', imageAlt: '', imageSize: 88, accent: '#315c49', links: [{ label: 'GitHub', url: '' }, { label: 'Website', url: '' }, { label: 'Facebook', url: '' }] }));

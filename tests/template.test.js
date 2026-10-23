@@ -7,6 +7,21 @@ const signature = {
   imageAlt: ' A & B ', imageSize: 137, accent: '#A1b2C3',
   links: [{ label: ' Second ', url: ' broken url ' }, { label: '', url: '' }, { label: 'First', url: '' }]
 };
+test('template filenames use a safe email handle without changing saved values', () => {
+  const examples = [
+    ['alex@example.com', 'alex.json'],
+    [' Alex.Morgan+work@example.com ', 'alex.morgan+work.json'],
+    ['unfinished@', 'unfinished.json'],
+    ['', 'email-signature-template.json'],
+    ['../alex/path@example.com', 'alex-path.json'],
+    ['CON@example.com', 'template-con.json']
+  ];
+  for (const [email, expected] of examples) {
+    const data = { ...signature, email };
+    assert.equal(Template.filename(data), expected);
+    assert.equal(Template.parse(Template.serialize(data)).email, email);
+  }
+});
 test('exact round trip retains every field, whitespace, unfinished values and ordered blank rows', () => {
   const encoded = Template.serialize(signature);
   assert.deepEqual(Template.parse(encoded), signature);

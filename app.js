@@ -65,7 +65,7 @@
   }
   $('save-template').addEventListener('click', function () {
     try {
-      downloadFile(SignatureTemplate.serialize(state), 'application/json;charset=utf-8', 'email-signature-template.json');
+      downloadFile(SignatureTemplate.serialize(state), 'application/json;charset=utf-8', SignatureTemplate.filename(state));
       templateStatus('Template saved. Load this file to restore every field, including unfinished details.');
     } catch (error) { templateStatus(error.message, true); }
   });
