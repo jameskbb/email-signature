@@ -2,6 +2,12 @@
 
 ![Email Signature title beside an example signature with a green monogram, vertical divider, name, role, email, and links](docs/images/readme-title-email-signature.png)
 
+<p align="center">
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/jameskbb/email-signature?style=for-the-badge&label=License&color=blue"></a>
+  <a href="package.json"><img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-no%20build-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"></a>
+  <a href="https://jameskbb.github.io/email-signature/"><img alt="Live site" src="https://img.shields.io/website?url=https%3A%2F%2Fjameskbb.github.io%2Femail-signature%2F&label=Live&up_message=online&down_message=offline&style=for-the-badge&logo=githubpages&logoColor=white"></a>
+</p>
+
 [![Use now: open the email signature builder](docs/images/use-now.svg)](https://jameskbb.github.io/email-signature/)
 
 Make a clean email signature: image on the left, a solid divider, then your name, position, company, and optional contact links. Paste an image URL, edit your details, and copy the formatted result into your email settings.
